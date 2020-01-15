@@ -1,0 +1,24 @@
+{
+  "name": "art-front-end-architecture",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "mdx-deck": "^3.0.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "mdx-deck deck.mdx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afontcu/art-front-end-architecture.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/afontcu/art-front-end-architecture/issues"
+  },
+  "homepage": "https://github.com/afontcu/art-front-end-architecture#readme"
+}
