@@ -1,0 +1,274 @@
+# The art of front-end architecture
+
+
+---
+
+## <Waver /> &nbsp; I’m Adrià Fontcuberta
+
+<Appear>
+
+Senior(?) Sw Engineer @ **Holaluz**
+
+Maintainer of **Vue Test Utils** & **Testing Library**
+
+Co-organizer of **VueJS BCN**
+
+<p style={{fontSize: '0.8em', marginTop: '10rem'}}>
+afontcu.dev &nbsp;&nbsp;·&nbsp;&nbsp; @afontq
+</p>
+
+</Appear>
+
+<Notes>
+Fui a la universidad porque me di cuenta demasiado tarde que existía StackOverflow
+
+Testing Library: un proyecto open source que ofrece varias opciones
+para testear los principales frameworks front-end del momento.
+</Notes>
+
+---
+
+# Disclaimer #1
+
+This is not about front-end.
+
+---
+
+# Disclaimer #2
+
+This about software architecture (yes, at 18:00).
+
+---
+
+# Why
+
+This is about my experience at Holaluz.
+
+We need to build durable, maintainable software.
+
+---
+
+## Moonshot
+
+Stay away from the framework (also known as "decouple")
+
+Generate a structure that yields easy-to-test
+
+Create a shared understanding so that other projects can use the same ideas
+
+<Notes>
+  1. pudiésemos cambiar Vue por React por Svelte por simplemente un cli sin
+  tocar una coma de la lógica de negocio
+  
+  2. La forma en que organizas el código debe facilitarte poderlo testear. 
+  Bonus point si hace el TDD más sencillo.
+
+  3. Debería ser una estructura adoptable de forma incremental, sin necesitar un
+  rewrite de las aplicaciones actuales (en la medida de lo posible).
+</Notes>
+
+---
+
+# How
+
+---
+
+Split things up
+
+Organize code around business rules
+
+Business rules should be testable without UI, DB, APIs...
+
+By creating "layers" of software where dependencies go inwards.
+
+<Notes>
+  ni cualquier otra cosa con siglas.
+</Notes>
+
+---
+
+yep – we started with a `/utils` folder.
+
+(spoiler: it is still there #SorryNotSorry)
+
+---
+
+# What
+
+---
+
+All code you write belongs to either:
+
+* something something business
+* something something deliver
+
+---
+
+Business -> Deliver
+
+<Notes>
+  o, por eso de usar nombres más habituales en la industria...
+</Notes>
+
+---
+
+Domain -> Infrastructure
+
+
+<Notes>
+  este modelo es válido, pero es demasiado abstracto para resultarnos útil
+</Notes>
+
+---
+
+Entities -> Use Cases -> Adapter -> UI
+
+<Notes>
+Use cases define all the operation sets the domain layer can perform
+</Notes>
+
+---
+
+Entities -> Use Cases -> Adapter -> UI
+  Framework agnostic   Framework related
+      JavaScript          Vuex      Vue
+      TypeScript          Redux    React
+
+---
+
+## Folder structure
+
+---
+
+```bash
+  /domain  # domain objects
+  /application  # use cases
+  /infrastructure  # APIs, cookies...
+  /state  # Vuex (our adapter)
+  /ui  # Vue
+```
+
+<Notes>
+  Técnicamente state+ui formarían parte de Infrastructure, pero nos pareció que
+  tenía sentido separar incluso visualmente lo que sea el mecanismo de entrega
+  principal de lo que sería el conjunto de repositorios (APIs, etc) de donde
+  las aplicaciones front sacan esa información. Debatible.
+</Notes>
+
+---
+
+```bash
+  /pages
+  /components
+  /layouts
+  /plugins
+  nuxt.config.js
+  package.json
+  package-lock.json
+  .prettierrc
+  .eslintrc.js
+  jest.config.js
+```
+
+<Notes>
+  ¿Qué sabemos de un proyecto viendo esto?
+</Notes>
+
+---
+
+```bash
+  /domain
+    /address
+    /client
+    /commission
+    /product
+    /sales
+    /user
+  /application
+    /address
+    /client
+    /commission
+    /product
+    /sales
+    /user
+  /infrastructure
+    ...
+  /ui
+    ...
+```
+
+<Notes>
+  ¿Qué sabemos de un proyecto viendo esto?
+</Notes>
+
+---
+
+```bash
+  /domain  # domain objects
+  /application  # use cases
+  /infrastructure  
+    /web  
+    /cli  
+```
+
+---
+
+## VALE ADRI MUY GUAY LAS DIAPOS EN INGLÉS Y LOS DIAGRAMAS
+
+## PERO DÓNDE ESTÁ MI CSS
+
+---
+
+The Web is a **delivery mechanism**.
+
+<Notes>
+  Os estoy diciendo que eso a lo que hemos dedicado tantos años (la web) es un
+  "simple mecanismo de entrega"? Pues hasta cierto punto sí, aunque uno de los
+  más complejos y que requiere más conocimiento por nuestra parte.
+</Notes>
+
+---
+
+You should be able to replace the **delivery mechanism** with another one while
+using the exact same business-related code.
+
+---
+
+The fact that your application is delivered over the web is a detail and should
+not dominate your system structure.
+
+Uncle "asshole" Bob: https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html
+
+---
+
+## Where are we struggling/finding the best way?
+
+UI Validation
+
+Folder structure
+
+Error handling
+
+---
+
+## A word of caution
+
+More indirection === More lines of code
+
+Think about mental models; forget the implementation
+
+<Notes>
+  business vs. delivery
+  testability
+  screaming architecture
+</Notes>
+
+---
+
+## Wrapping up
+
+Keep business rules decoupled from frameworks.
+
+Make **everything** easy to test.
+
+Your top-level organization should tell people what your project is about.
